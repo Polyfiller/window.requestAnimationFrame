@@ -1,0 +1,23 @@
+{
+    "name": "requestAnimationFrame",
+    "version": "1.0.0",
+    "description": "requestAnimationFrame polyfill",
+    "keywords": [
+        "requestAnimationFrame",
+        "cancelAnimationFrame",
+        "framerate",
+        "animation",
+        "polyfill",
+        "fps"
+    ],
+    "homepage": "https://github.com/Polyfiller/requestAnimationFrame",
+    "license": "MIT",
+    "authors": [
+        "Polyfiller collaborators"
+    ],
+    "ignore": [
+        "*",
+        "!requestanimationframe.js"
+    ],
+    "main": "requestanimationframe.js"
+}
