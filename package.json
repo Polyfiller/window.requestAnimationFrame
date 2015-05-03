@@ -21,7 +21,7 @@
         "url": "https://github.com/Polyfiller/requestAnimationFrame.git"
     },
     "files": [
-        "requestanimationframe.js",
+        "requestanimationframe.js"
     ],
     "main": "requestanimationframe.js"
 }
