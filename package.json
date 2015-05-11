@@ -1,27 +1,27 @@
 {
-    "name": "requestAnimationFrame",
-    "version": "1.0.0",
-    "description": "requestAnimationFrame polyfill",
-    "keywords": [
-        "requestAnimationFrame",
-        "cancelAnimationFrame",
-        "framerate",
-        "animation",
-        "polyfill",
-        "fps"
-    ],
-    "license": "MIT",
-    "author": "Polyfiller collaborators",
-    "homepage": "https://github.com/Polyfiller/requestAnimationFrame",
-    "bugs": {
-        "url": "https://github.com/Polyfiller/requestAnimationFrame/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Polyfiller/requestAnimationFrame.git"
-    },
-    "files": [
-        "requestanimationframe.js"
-    ],
-    "main": "requestanimationframe.js"
+  "name": "window.requestAnimationFrame",
+  "version": "1.0.0",
+  "description": "requestAnimationFrame polyfill",
+  "keywords": [
+    "requestAnimationFrame",
+    "cancelAnimationFrame",
+    "framerate",
+    "animation",
+    "polyfill",
+    "fps"
+  ],
+  "license": "MIT",
+  "author": "Polyfiller collaborators",
+  "homepage": "https://github.com/Polyfiller/requestAnimationFrame",
+  "bugs": {
+    "url": "https://github.com/Polyfiller/requestAnimationFrame/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Polyfiller/requestAnimationFrame.git"
+  },
+  "files": [
+    "requestanimationframe.js"
+  ],
+  "main": "requestanimationframe.js"
 }

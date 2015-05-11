@@ -8,18 +8,18 @@ To use the requestAnimationFrame polyfill, just drop a single JavaScript file in
 ```
 or load as the Node.js module:
 ```javascript
-require('requestAnimationFrame');
+require('window.requestAnimationFrame');
 ```
 
 Download the [latest requestAnimationFrame polyfill from GitHub](https://raw.githubusercontent.com/Polyfiller/requestAnimationFrame/master/requestanimationframe.js).
 
 **npm**
 ```
-npm install requestAnimationFrame
+npm install window.requestAnimationFrame
 ```
 **Bower**
 ```
-bower install requestAnimationFrame
+bower install window.requestAnimationFrame
 ```
 
 ## Dependencies
