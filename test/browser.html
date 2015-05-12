@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="HandheldFriendly" content="True">
+
+    <title>requestAnimationFrame polyfill</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #f0f0f0;
+            font: 16px/1 Menlo, Consolas, monospace;
+            color: #363f44;
+        }
+        a {
+            color: #3f53b1;
+            text-decoration: none;
+        }
+        h1, p, ul, li, pre {
+            margin: 16px;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .pending {
+            color: #808080;
+        }
+        .passed {
+            color: #4fad53;
+        }
+        .failed {
+            color: #f1443c;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <a href="https://github.com/Polyfiller/requestAnimationFrame/" title="Go to GitHub">
+            requestAnimationFrame polyfill
+        </a>
+    </h1>
+
+    <p>
+        <span id="tests-total">0</span> total,
+        <span id="tests-pending">0</span> pending,
+        <span id="tests-passed">0</span> passed,
+        <span id="tests-failed">0</span> failed
+    </p>
+
+    <ul id="test-results"></ul>
+
+    <script>
+        'use strict';
+
+        new function () {
+            try {
+                console.clear();
+            }
+            catch (error) {
+                window.console = {
+                    log: function () {
+                        var pre = document.createElement('pre');
+                        pre.appendChild(document.createTextNode(
+                            Array.prototype.join.call(arguments, ', ')
+                        ));
+                        document.body.appendChild(pre);
+                    }
+                };
+            }
+        };
+    </script>
+
+    <script>
+        'use strict';
+
+        if (!Date.now) {
+            Date.now = function () {
+                return (new Date).getTime();
+            };
+        }
+    </script>
+
+    <script>
+        'use strict';
+
+        if (window.location.search.indexOf('native') == -1) {
+            console.log('to use native requestAnimationFrame, add query parameter "native"');
+            window.requestAnimationFrame = null;
+            window.msRequestAnimationFrame = null;
+            window.mozRequestAnimationFrame = null;
+            window.webkitRequestAnimationFrame = null;
+            window.mozCancelAnimationFrame = null;
+            window.webkitCancelAnimationFrame = null;
+            window.cancelRequestAnimationFrame = null;
+            window.msCancelRequestAnimationFrame = null;
+            window.mozCancelRequestAnimationFrame = null;
+            window.webkitCancelRequestAnimationFrame = null;
+        } else {
+            document.title = 'Native requestAnimationFrame';
+        }
+    </script>
+
+    <script src="../requestanimationframe.js"></script>
+
+    <script>
+        'use strict';
+
+        var test = new function () {
+
+            var deadline = 5000;
+            var testsPassed = 0;
+            var testsFailed = 0;
+            var testsTotal = 0;
+            var testsTotalView = $('tests-total').firstChild;
+            var testsPendingView = $('tests-pending').firstChild;
+            var testsPassedView = $('tests-passed').firstChild;
+            var testsFailedView = $('tests-failed').firstChild;
+            var testResults = $('test-results');
+
+            function $(id) {
+                return document.getElementById(id);
+            }
+
+            function updateTestCounters() {
+                testsTotalView.nodeValue = testsTotal;
+                testsPassedView.nodeValue = testsPassed;
+                testsFailedView.nodeValue = testsFailed;
+                testsPendingView.nodeValue = testsTotal - testsPassed - testsFailed;
+            }
+
+            function writeTestInfo(desc) {
+                var testId = 'test-' + ++testsTotal;
+                var html = [
+                    '<li id="' + testId + '">',
+                        '<span class="pending">○</span> ',
+                        desc,
+                    '</li>'
+                ];
+                testResults.insertAdjacentHTML('beforeend', html.join(''));
+                updateTestCounters();
+                return testId;
+            }
+
+            function updateTestInfo(testId, passed) {
+                var testInfo = $(testId);
+                var testStatus = testInfo.firstChild;
+                var statusText = testStatus.firstChild;
+                if (passed) {
+                    testsPassed++;
+                    testStatus.className = 'passed';
+                    statusText.nodeValue = '✓';
+                } else {
+                    testsFailed++;
+                    testStatus.className = 'failed';
+                    statusText.nodeValue = '✕';
+                }
+                updateTestCounters();
+            }
+
+            function test(desc, tester) {
+                var testId = writeTestInfo(desc);
+
+                var timeoutId = window.setTimeout(function () {
+                    updateTestInfo(testId, false);
+                }, deadline);
+
+                tester(function (result) {
+                    window.clearTimeout(timeoutId);
+                    updateTestInfo(testId, Boolean(result));
+                });
+            }
+
+            return test;
+        };
+    </script>
+
+    <script>
+        'use strict';
+
+        test('asynchrony', function (assert) {
+            var x = true;
+            var y = true;
+
+            window.requestAnimationFrame(function () {
+                x = false;
+            });
+
+            window.requestAnimationFrame(function () {
+                y = false;
+            });
+
+            assert(x && y);
+        });
+
+        test('sequence', function (assert) {
+            var etalon = '123';
+            var result = '';
+
+            window.requestAnimationFrame(function () {
+                result += '1';
+            });
+
+            window.requestAnimationFrame(function () {
+                result += '2';
+            });
+
+            window.requestAnimationFrame(function () {
+                result += '3';
+            });
+
+            window.requestAnimationFrame(function () {
+                assert(result == etalon);
+            });
+        });
+
+        test('recursivity', function (assert) {
+            var i = 50;
+
+            function raf() {
+                window.requestAnimationFrame(function () {
+                    if (i--) {
+                        raf();
+                    } else {
+                        assert(true);
+                    }
+                });
+            }
+
+            raf();
+        });
+
+        test('cancellation (one, synchronously)', function (assert) {
+            var id = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            window.cancelAnimationFrame(id);
+
+            window.setTimeout(function () {
+                assert(true);
+            }, 0);
+        });
+
+        test('cancellation (one, asynchronously)', function (assert) {
+            var id = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            window.setTimeout(function () {
+                window.cancelAnimationFrame(id);
+            }, 0);
+
+            window.setTimeout(function () {
+                assert(true);
+            }, 0);
+        });
+
+        test('cancellation (many, synchronously)', function (assert) {
+            var id1 = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            var id2 = window.requestAnimationFrame(function () {
+                assert(true);
+            });
+
+            var id3 = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            window.cancelAnimationFrame(id1);
+            window.cancelAnimationFrame(id3);
+        });
+
+        test('cancellation (many, asynchronously)', function (assert) {
+            var id1 = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            var id2 = window.requestAnimationFrame(function () {
+                assert(true);
+            });
+
+            var id3 = window.requestAnimationFrame(function () {
+                assert(false);
+            });
+
+            window.setTimeout(function () {
+                window.cancelAnimationFrame(id1);
+                window.cancelAnimationFrame(id3);
+            }, 0);
+        });
+
+        test('frame dropping', function (assert) {
+            var frames = 0;
+            var i = 50;
+
+            function raf(last) {
+                window.requestAnimationFrame(function () {
+                    frames++;
+
+                    if (last) {
+                        assert(frames == 50);
+                    }
+                });
+            }
+
+            while (i--) {
+                raf(!i);
+            }
+        });
+    </script>
+</body>
+</html>
