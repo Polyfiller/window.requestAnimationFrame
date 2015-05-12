@@ -28,7 +28,7 @@ window.requestAnimationFrame || function (window) {
 
             previousCallTime = timeToCall;
 
-            return setTimeout(function onAnimationFrame() {
+            return window.setTimeout(function onAnimationFrame() {
 
                 callback(timeToCall - animationStartTime);
 
@@ -43,7 +43,7 @@ window.requestAnimationFrame || function (window) {
     || window.mozCancelRequestAnimationFrame
     || window.webkitCancelRequestAnimationFrame
     || function cancelAnimationFrame(id) {
-           clearTimeout(id);
+           window.clearTimeout(id);
        };
 
 }(this);
