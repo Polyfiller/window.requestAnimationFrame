@@ -12,13 +12,13 @@
     ],
     "license": "MIT",
     "author": "Polyfiller collaborators",
-    "homepage": "https://github.com/Polyfiller/requestAnimationFrame",
+    "homepage": "https://github.com/Polyfiller/window.requestAnimationFrame",
     "bugs": {
-        "url": "https://github.com/Polyfiller/requestAnimationFrame/issues"
+        "url": "https://github.com/Polyfiller/window.requestAnimationFrame/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Polyfiller/requestAnimationFrame.git"
+        "url": "https://github.com/Polyfiller/window.requestAnimationFrame.git"
     },
     "files": [
         "requestanimationframe.js"

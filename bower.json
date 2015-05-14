@@ -10,7 +10,7 @@
         "polyfill",
         "fps"
     ],
-    "homepage": "https://github.com/Polyfiller/requestAnimationFrame",
+    "homepage": "https://github.com/Polyfiller/window.requestAnimationFrame",
     "license": "MIT",
     "authors": [
         "Polyfiller collaborators"

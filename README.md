@@ -11,7 +11,7 @@ or load as the Node.js module:
 require('window.requestanimationframe');
 ```
 
-Download the [latest requestAnimationFrame polyfill from GitHub](https://raw.githubusercontent.com/Polyfiller/requestAnimationFrame/master/requestanimationframe.js).
+Download the [latest requestAnimationFrame polyfill from GitHub](https://raw.githubusercontent.com/Polyfiller/window.requestAnimationFrame/master/requestanimationframe.js).
 
 **npm**
 ```
@@ -28,4 +28,4 @@ The requestAnimationFrame polyfill requieres [Date.now](https://developer.mozill
 
 ## License
 
-The requestAnimationFrame polyfill is released under the [MIT license](https://github.com/Polyfiller/requestAnimationFrame/blob/master/LICENSE).
+The requestAnimationFrame polyfill is released under the [MIT license](https://github.com/Polyfiller/window.requestAnimationFrame/blob/master/LICENSE).
