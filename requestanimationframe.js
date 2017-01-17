@@ -46,4 +46,4 @@ window.requestAnimationFrame || function (window) {
            window.clearTimeout(id);
        };
 
-}(this);
+}(window);
