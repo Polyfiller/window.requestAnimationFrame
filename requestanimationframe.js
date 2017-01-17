@@ -1,12 +1,12 @@
 /**
- * requestAnimationFrame polyfill v1.0.0
+ * requestAnimationFrame polyfill v1.0.1
  * requires Date.now
  *
  * © Polyfiller 2015
  * Released under the MIT license
  * github.com/Polyfiller/requestAnimationFrame
  */
-window.requestAnimationFrame || function (window) {
+window.requestAnimationFrame || function () {
 
     'use strict';
 
@@ -46,4 +46,4 @@ window.requestAnimationFrame || function (window) {
            window.clearTimeout(id);
        };
 
-}(window);
+}();
